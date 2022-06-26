@@ -1,30 +1,18 @@
 import Head from 'next/head';
 
-import DropdownMenu from '@components/DropdownMenu';
-import RadioGroup from '@components/RadioGroup';
 import { arrayOf } from 'prop-types';
 import { object } from 'prop-types';
+import Layout from 'Layout';
 
-export default function Home({ list }) {
-    console.log('list: ', list);
+export default function Home() {
     return (
-        <div className="container">
+        <>
             <Head>
                 <title>Qurban Site</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div>
-                <h1 className="text-6xl font-bold underline">Hello world!</h1>
-                <DropdownMenu />
-                <RadioGroup />
-                {list?.map((item, key) => (
-                    <>
-                        <p key={key}>{item.name}</p>
-                        <p key={key}>{item.price}</p>
-                    </>
-                ))}
-            </div>
-        </div>
+            <Layout> Home Page</Layout>
+        </>
     );
 }
 

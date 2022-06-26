@@ -1,19 +1,31 @@
-import { object } from 'prop-types';
-import { arrayOf } from 'prop-types';
-import React from 'react';
+import Head from 'next/head';
 
-const Qurban = ({ list }) => {
+import ListQurban from '@components/ListQurban';
+import { arrayOf } from 'prop-types';
+import { object } from 'prop-types';
+import Layout from 'Layout';
+
+export default function Qurban({ list }) {
     return (
-        <div>
-            {list?.map((item, key) => (
-                <>
-                    <p key={key}>{item.name}</p>
-                    <p key={key}>{item.price}</p>
-                </>
-            ))}
-        </div>
+        <>
+            <Head>
+                <title>Qurban Site</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <div>
+                <Layout>
+                    <div className="container mx-auto py-10">
+                        <div className="grid md:grid-cols-3 gap-4 px-4 md:px-0">
+                            {list?.map((item, key) => (
+                                <ListQurban key={key} item={item} />
+                            ))}
+                        </div>
+                    </div>
+                </Layout>
+            </div>
+        </>
     );
-};
+}
 
 export async function getServerSideProps() {
     try {
@@ -33,5 +45,3 @@ export async function getServerSideProps() {
 Qurban.propTypes = {
     list: arrayOf(object)
 };
-
-export default Qurban;
