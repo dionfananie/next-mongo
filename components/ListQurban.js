@@ -46,14 +46,14 @@ const ListQurban = ({ item }) => {
                     </div>
                     <div className="flex justify-between items-center">
                         <p>Total: </p>
-                        <p className="font-semibold text-orange-400">{price}</p>
+                        <p className="font-semibold text-orange-500">{toIDR(price + admPrice)}</p>
                     </div>
                 </div>
 
                 <div>
                     <p className="text-xl font-semibold text-orange-600">
                         {toIDR(Math.round(Math.floor((price + admPrice) / 7)), 2)}
-                        <span className="font-normal text-gray-800">/orang</span>
+                        <span className="font-normal text-gray-800"> /orang</span>
                     </p>
                 </div>
                 <div className="py-2">
