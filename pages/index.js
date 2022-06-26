@@ -18,10 +18,9 @@ export default function Home() {
 
 export async function getServerSideProps() {
     try {
-        const res = await fetch(`https://express-mongo-iota.vercel.app/qurban`);
-        const data = await res.json();
+        console.log('home');
         return {
-            props: { list: data }
+            props: { list: [] }
         };
     } catch (e) {
         console.error(e);
