@@ -4,12 +4,15 @@ import Image from 'next/image';
 import Sapi from '@assets/sapi.jpeg';
 import toIDR from '@helpers/toIDR';
 import mappingType from '@helpers/mappingType';
+import { func } from 'prop-types';
+import noop from '@helpers/noop';
 
 const admPrice = 1575000;
 const maxQuota = 7;
-const ListQurban = ({ item }) => {
-    const { name, type, price, weight, quota } = item;
+const ListQurban = ({ item, handleClick }) => {
+    const { name, type, price, weight, quota, _id } = item;
     const availQuota = useMemo(() => quota / maxQuota, [quota]);
+
     return (
         <div className="max-w-sm bg-white rounded-lg shadow-md mb-6">
             <div className="rounded-lg">
@@ -73,9 +76,13 @@ const ListQurban = ({ item }) => {
                 </div>
                 <div className="py-2">
                     <button
-                        disabled={quota === maxQuota}
-                        className="text-white bg-purple-600 hover:bg-purple-800 focus:ring-4 w-full focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-4 text-center">
-                        Pesan Sekarang
+                        onClick={() => handleClick(_id)}
+                        className={`text-white focus:ring-4 w-full focus:outline-none font-medium rounded-lg text-sm px-4 py-4 text-center ${
+                            !quota
+                                ? 'bg-gray-400 focus:ring-gray-300'
+                                : 'bg-purple-600 hover:bg-purple-800 focus:ring-purple-300'
+                        }`}>
+                        {quota ? 'Pesan Sekarang' : 'Habis, Cek Detail'}
                     </button>
                 </div>
             </div>
@@ -84,9 +91,11 @@ const ListQurban = ({ item }) => {
 };
 
 ListQurban.propTypes = {
-    item: object
+    item: object,
+    handleClick: func
 };
 ListQurban.defaultProps = {
-    item: {}
+    item: {},
+    handleClick: noop
 };
 export default ListQurban;

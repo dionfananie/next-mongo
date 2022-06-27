@@ -9,7 +9,8 @@
         "@utils/*": ["utils/*"],
         "@pages/*": ["pages/*"],
         "@assets/*": ["assets/*"],
-        "@helpers/*": ["helpers/*"]
+        "@helpers/*": ["helpers/*"],
+        "@lib/*": ["lib/*"]
       }
     },
     "exclude": ["node_modules"]

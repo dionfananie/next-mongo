@@ -1,11 +1,19 @@
 import Head from 'next/head';
 
 import ListQurban from '@components/ListQurban';
+
 import { arrayOf } from 'prop-types';
 import { object } from 'prop-types';
-import Layout from 'Layout';
+
+import { useRouter } from 'next/router';
 
 export default function Qurban({ list }) {
+    const router = useRouter();
+
+    const handleClick = (id) => {
+        router.push(`/qurban/${id}`);
+    };
+
     return (
         <>
             <Head>
@@ -13,15 +21,14 @@ export default function Qurban({ list }) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div>
-                <Layout>
-                    <div className="container mx-auto py-10">
-                        <div className="grid md:grid-cols-3 gap-4 px-4 md:px-0">
-                            {list?.map((item, key) => (
-                                <ListQurban key={key} item={item} />
-                            ))}
-                        </div>
+                <button onClick={handleClick}>shasuhuiadihd</button>
+                <div className="container mx-auto py-10">
+                    <div className="grid md:grid-cols-3 gap-4 px-4 md:px-0">
+                        {list?.map((item, key) => (
+                            <ListQurban key={key} item={item} handleClick={handleClick} />
+                        ))}
                     </div>
-                </Layout>
+                </div>
             </div>
         </>
     );
