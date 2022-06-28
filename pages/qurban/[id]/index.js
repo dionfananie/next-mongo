@@ -3,41 +3,18 @@ import { loadData, loadBuyers } from '@lib/fetch-data';
 
 import Sapi from '@assets/sapi.jpeg';
 import Image from 'next/image';
-import mappingType from '@helpers/mappingType';
-import toIDR from '@helpers/toIDR';
 import TableBuyers from '@components/TableBuyers';
+import DescQurban from '@components/DescQurban';
 
 const DetailQurban = ({ item, listBuyers }) => {
-    const { name, type, price, weight, quota } = item;
     return (
         <div className="container mx-auto">
             <div className="mb-8 md:mt-8 mt-0 md:flex">
                 <div className="md:mr-8">
-                    <Image
-                        src={Sapi}
-                        layout="intrinsic"
-                        width="600px"
-                        height="350px"
-                        alt="Sapi"
-                        className="rounded-lg"
-                    />
+                    <Image src={Sapi} layout="intrinsic" width="600px" height="350px" alt="Sapi" />
                 </div>
-                <div className="mb-8 mx-4 md:mx-0">
-                    <p className="md:text-6xl text-xl font-semibold tracking-tight text-gray-900 mb-4">
-                        {name}
-                    </p>
-
-                    <p className="text-xl mb-4">
-                        Jenis Sapi:{' '}
-                        <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-2 py-1 rounded">
-                            {mappingType(type) || 'No Type'}
-                        </span>
-                    </p>
-                    <p className="text-xl mb-4 font-semibold text-orange-600">
-                        Harga: {toIDR(price)}
-                    </p>
-                    <p className="text-xl mb-4">Berat: {weight} Kg</p>
-                    <p className="text-xl mb-4">Tersisa: {quota}</p>
+                <div className="mb-8 mx-4 md:mx-0 py-2">
+                    <DescQurban item={item} />
                 </div>
             </div>
 

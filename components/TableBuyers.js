@@ -1,6 +1,7 @@
 import React from 'react';
 
 const TableBuyers = ({ list }) => {
+    if (!list.length) return null;
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-3 px-4 sm:px-0">
             <table className="w-full text-sm text-left text-gray-500 ">
