@@ -1,5 +1,7 @@
+import Title from '@components/Admin/Title';
 import mappingType from '@helpers/mappingType';
 import toIDR from '@helpers/toIDR';
+import { PlusIcon } from '@heroicons/react/solid';
 import { loadData } from '@lib/fetch-data';
 import Layout from 'Layout/admin';
 import { object } from 'prop-types';
@@ -8,7 +10,16 @@ import { arrayOf } from 'prop-types';
 export default function Qurban({ item }) {
     return (
         <Layout>
-            <p className="text-2xl text-bold">Hello</p>
+            <div className="flex justify-between">
+                <Title text="List Sapi Qurban" />
+                <button
+                    className={`text-white focus:ring-4 focus:outline-none rounded-lg text-sm px-4 text-center bg-purple-600 hover:bg-purple-800 focus:ring-purple-300`}>
+                    <span className="flex items-center">
+                        <PlusIcon className="w-6 h-6 mr-2" />
+                        Tambah Sapi
+                    </span>
+                </button>
+            </div>
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-3 px-4 sm:px-0">
                 <table className="w-full text-sm text-left text-gray-500 ">
