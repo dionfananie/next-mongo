@@ -26,7 +26,7 @@ const LIST_MENU = [
 const Sidebar = () => {
     const router = useRouter();
     const currentRoute = router.pathname;
-    console.log(currentRoute);
+
     return (
         <aside className="w-64 z-0 mt-1" aria-label="Sidebar">
             <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded  h-screen">
