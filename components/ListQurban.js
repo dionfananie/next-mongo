@@ -7,15 +7,15 @@ import noop from '@helpers/noop';
 import DescQurban from './DescQurban';
 
 const ListQurban = ({ item, handleClick }) => {
-    const { quota, _id } = item;
-
+    const { quota, _id, image } = item;
     return (
-        <div className="max-w-sm bg-white rounded-lg shadow-md mb-6">
+        <div className="max-w-sm bg-white rounded-lg shadow-md hover:shadow-xl mb-6">
             <div className="rounded-lg">
                 <a href="#">
                     <Image
-                        src={Sapi}
-                        layout="responsive"
+                        src={image?.photos || Sapi}
+                        width={450}
+                        height={280}
                         alt="Sapi"
                         className="rounded-tl-lg rounded-tr-lg"
                     />

@@ -1,5 +1,5 @@
 const mappingType = (type) => {
-    let name = '';
+    let name = 'no Type';
     switch (type) {
         case '10':
             name = 'PO';

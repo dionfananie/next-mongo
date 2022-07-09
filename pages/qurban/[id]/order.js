@@ -8,14 +8,15 @@ import FormBuyer from '@components/FormBuyer';
 import NavbarDetail from '@components/NavbarDetail';
 
 const Order = ({ item }) => {
+    const { image } = item || {};
     return (
         <>
             <NavbarDetail />
-            <div className="container mx-auto mt-12">
+            <div className="container mx-auto mt-14 md:mt-16">
                 <div className="mb-8 md:mt-8 mt-0 md:flex">
                     <div className="md:mr-8">
                         <Image
-                            src={Sapi}
+                            src={image?.photos || Sapi}
                             layout="intrinsic"
                             width="600px"
                             height="350px"

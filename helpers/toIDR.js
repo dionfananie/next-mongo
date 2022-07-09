@@ -15,7 +15,8 @@
  *   const string = toIDR('12000'); // string = Rp12.000
  */
 export default function toIDR(idr, withIDR = true) {
+    if (!idr) return 'Rp 0';
     const parsed = idr.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-    return `${withIDR ? 'Rp' : ''}${parsed}`;
+    return `${withIDR ? 'Rp ' : ''}${parsed}`;
 }

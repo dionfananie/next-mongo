@@ -6,17 +6,17 @@ import Quota from './Quota';
 const admPrice = 1575000;
 
 const DescQurban = ({ item }) => {
-    const { name, type, price, weight, quota } = item;
+    const { name, qurban_type, price, weight, quota } = item;
     return (
         <>
-            <div className="flex justify-between items-center">
-                <a href="#">
+            <div className="flex justify-between items-start">
+                <a href="#" style={{ 'max-width': '85%' }}>
                     <h5 className="text-3xl font-semibold tracking-tight text-gray-900 ">
                         {name || 'Sapi'}
                     </h5>
                 </a>
-                <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-2 py-1 rounded dark:bg-purple-200 dark:text-purple-800">
-                    {mappingType(type) || 'No Type'}
+                <span className="bg-purple-100 text-purple-800 my-1 text-xs font-semibold px-2 py-1 rounded dark:bg-purple-200 dark:text-purple-800">
+                    {mappingType(qurban_type)}
                 </span>
             </div>
             <div className="py-5">
