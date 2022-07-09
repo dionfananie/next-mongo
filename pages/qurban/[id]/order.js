@@ -12,8 +12,8 @@ const Order = ({ item }) => {
     return (
         <>
             <NavbarDetail />
-            <div className="container mx-auto mt-14 md:mt-16">
-                <div className="mb-8 md:mt-8 mt-0 md:flex">
+            <div className="container mx-auto mt-14 md:mt-20">
+                <div className="mb-8 md:mt-8 mt-0 md:flex md:px-6">
                     <div className="md:mr-8">
                         <Image
                             src={image?.photos || Sapi}

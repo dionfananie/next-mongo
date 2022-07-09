@@ -3,19 +3,13 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 const FormBuyer = () => {
-    console.log(process.env.NEXT_PUBLIC_API_URL_LOCAL);
     const { handleSubmit, register } = useForm();
     const onSubmit = async (data) => {
         const formData = new URLSearchParams();
         for (const key in data) {
             formData.append(key, data[key]);
         }
-
-        for (const pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
-        const res = await postBuyer(formData.toString());
-        console.log('res: ', res);
+        postBuyer(formData.toString());
     };
 
     return (
