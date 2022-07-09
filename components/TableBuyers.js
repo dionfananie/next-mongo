@@ -1,3 +1,5 @@
+import { object } from 'prop-types';
+import { arrayOf } from 'prop-types';
 import React from 'react';
 
 const TableBuyers = ({ list }) => {
@@ -43,4 +45,10 @@ const TableBuyers = ({ list }) => {
     );
 };
 
+TableBuyers.propTypes = {
+    list: arrayOf(object)
+};
+TableBuyers.defaultProps = {
+    list: []
+};
 export default TableBuyers;

@@ -5,6 +5,8 @@ import Sapi from '@assets/sapi.jpeg';
 import Image from 'next/image';
 import TableBuyers from '@components/TableBuyers';
 import DescQurban from '@components/DescQurban';
+import { arrayOf } from 'prop-types';
+import { object } from 'prop-types';
 
 const DetailQurban = ({ item, listBuyers }) => {
     return (
@@ -58,4 +60,12 @@ export async function getStaticPaths() {
     return { paths, fallback: 'blocking' };
 }
 
+DetailQurban.propTypes = {
+    item: arrayOf(object),
+    listBuyers: arrayOf(object)
+};
+DetailQurban.defaultProps = {
+    item: [],
+    listBuyers: []
+};
 export default DetailQurban;

@@ -6,6 +6,8 @@ import Image from 'next/image';
 import DescQurban from '@components/DescQurban';
 import FormBuyer from '@components/FormBuyer';
 import NavbarDetail from '@components/NavbarDetail';
+import { arrayOf } from 'prop-types';
+import { object } from 'prop-types';
 
 const Order = ({ item }) => {
     const { image } = item || {};
@@ -66,4 +68,10 @@ export async function getStaticPaths() {
     return { paths, fallback: 'blocking' };
 }
 
+Order.propTypes = {
+    item: arrayOf(object)
+};
+Order.defaultProps = {
+    item: []
+};
 export default Order;

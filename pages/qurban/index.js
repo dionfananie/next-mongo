@@ -54,3 +54,6 @@ export async function getServerSideProps() {
 Qurban.propTypes = {
     list: arrayOf(object)
 };
+Qurban.defaultProps = {
+    list: []
+};
