@@ -38,7 +38,7 @@ export default function Qurban({ list }) {
 
 export async function getServerSideProps() {
     try {
-        const res = await fetch(`https://express-mongo-iota.vercel.app/qurban`);
+        const res = await fetch(`${process.env.API_URL}/qurban`);
         const data = await res.json();
         return {
             props: { list: data }

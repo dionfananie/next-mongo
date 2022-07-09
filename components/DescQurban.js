@@ -10,7 +10,7 @@ const DescQurban = ({ item }) => {
     return (
         <>
             <div className="flex justify-between items-start">
-                <a href="#" style={{ 'max-width': '85%' }}>
+                <a href="#" style={{ maxWidth: '85%' }}>
                     <h5 className="text-3xl font-semibold tracking-tight text-gray-900 ">
                         {name || 'Sapi'}
                     </h5>
