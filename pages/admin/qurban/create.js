@@ -10,7 +10,6 @@ const FormBuyer = () => {
     const { handleSubmit, register } = useForm();
     const [selectedImg, setSelectedImg] = useState();
     const onSubmit = async (data) => {
-        console.log(data);
         const formData = new FormData();
         for (const key in data) {
             formData.append(key, data[key]);

@@ -29,7 +29,7 @@ const Sidebar = () => {
 
     return (
         <aside className="w-64 z-0 mt-1" aria-label="Sidebar">
-            <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded  h-screen">
+            <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded fixed h-screen">
                 <div className="bg-white-10 mb-4">
                     <Link className="flex-shrink-0" href="/" passHref>
                         <Image className="h-8 w-8" src={Logo} alt="Logo" height={50} width={200} />

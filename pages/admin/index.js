@@ -1,10 +1,13 @@
-import Title from '@components/Admin/Title';
+// import Title from '@components/Admin/Title';
+import AdminProvider from 'contexts/admin';
 import Layout from 'Layout/admin';
 
-export default function Qurban() {
-    return (
-        <Layout>
-            <Title text="Hello" />
-        </Layout>
-    );
+function Admin() {
+    return <Layout title="Admin page"></Layout>;
 }
+
+Admin.getLayout = function getLayout(page) {
+    return <AdminProvider>{page}</AdminProvider>;
+};
+
+export default Admin;

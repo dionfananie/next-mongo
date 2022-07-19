@@ -1,22 +1,72 @@
-import React from 'react';
+import { Fragment, useState } from 'react';
+import { Listbox, Transition } from '@headlessui/react';
+import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
+import { arrayOf } from 'prop-types';
+import { object } from 'prop-types';
+import { func } from 'prop-types';
+import { useMemo } from 'react';
 
-const ListOption = () => {
+export default function ListOption({ list, onChange }) {
+    const listValue = useMemo(() => [{ _id: 'all', name: 'Semua' }, ...list], [list]);
+    const [selected, setSelected] = useState(listValue[0]);
+    const handleChange = (v) => {
+        setSelected(listValue.find((item) => item._id === v));
+        onChange(v);
+    };
+
     return (
-        <div className="flex items-center">
-            <label htmlFor="countries" className="block text-sm font-medium text-gray-900 mr-4">
-                Pilih Sapi Qurban
-            </label>
-            <select
-                id="countries"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
-                <option selected>Sapi Qurban</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
-            </select>
+        <div className="top-16 w-72">
+            <Listbox value={selected} onChange={(e) => handleChange(e)}>
+                <div className="relative mt-1">
+                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                        <span className="block truncate">{selected.name}</span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                            <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        </span>
+                    </Listbox.Button>
+                    <Transition
+                        as={Fragment}
+                        leave="transition ease-in duration-100"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0">
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full z-10 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            {listValue.map((item, itemIdx) => (
+                                <Listbox.Option
+                                    key={itemIdx}
+                                    className={({ active }) =>
+                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                            active
+                                                ? 'bg-purple-100 text-purple-900'
+                                                : 'text-gray-900'
+                                        }`
+                                    }
+                                    value={item._id}>
+                                    <>
+                                        <span
+                                            className={`block truncate ${
+                                                selected._id === item._id
+                                                    ? 'font-medium'
+                                                    : 'font-normal'
+                                            }`}>
+                                            {item.name}
+                                        </span>
+                                        {selected._id === item._id ? (
+                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-600">
+                                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                            </span>
+                                        ) : null}
+                                    </>
+                                </Listbox.Option>
+                            ))}
+                        </Listbox.Options>
+                    </Transition>
+                </div>
+            </Listbox>
         </div>
     );
-};
+}
 
-export default ListOption;
+ListOption.propTypes = {
+    list: arrayOf(object).isRequired,
+    onChange: func.isRequired
+};

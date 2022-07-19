@@ -1,5 +1,5 @@
 import React from 'react';
-import { loadData, loadBuyers } from '@lib/fetch-data';
+import { loadQurban, loadBuyers } from '@lib/fetch-data';
 
 import Sapi from '@assets/sapi.jpeg';
 import Image from 'next/image';
@@ -29,7 +29,8 @@ const DetailQurban = ({ item, listBuyers }) => {
 // It may be called again, on a serverless function, if
 // revalidation is enabled and a new request comes in
 export async function getStaticProps({ params }) {
-    const item = await loadData(params.id);
+    const { id } = params;
+    const item = await loadQurban({ id });
     const listBuyers = await loadBuyers(params.id);
 
     return {
@@ -48,7 +49,7 @@ export async function getStaticProps({ params }) {
 // It may be called again, on a serverless function, if
 // the path has not been generated.
 export async function getStaticPaths() {
-    const list = await loadData();
+    const list = await loadQurban();
     // Get the paths we want to pre-render based on posts
     const paths = list.map((post) => ({
         params: { id: post._id }

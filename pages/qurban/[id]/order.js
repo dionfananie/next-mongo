@@ -1,12 +1,11 @@
 import React from 'react';
-import { loadData } from '@lib/fetch-data';
+import { loadQurban } from '@lib/fetch-data';
 
 import Sapi from '@assets/sapi.jpeg';
 import Image from 'next/image';
 import DescQurban from '@components/DescQurban';
 import FormBuyer from '@components/FormBuyer';
 import NavbarDetail from '@components/NavbarDetail';
-import { arrayOf } from 'prop-types';
 import { object } from 'prop-types';
 
 const Order = ({ item }) => {
@@ -39,7 +38,7 @@ const Order = ({ item }) => {
 // It may be called again, on a serverless function, if
 // revalidation is enabled and a new request comes in
 export async function getStaticProps({ params }) {
-    const item = await loadData(params.id);
+    const item = await loadQurban({ id: params.id });
 
     return {
         props: {
@@ -56,9 +55,9 @@ export async function getStaticProps({ params }) {
 // It may be called again, on a serverless function, if
 // the path has not been generated.
 export async function getStaticPaths() {
-    const list = await loadData();
+    const list = await loadQurban();
     // Get the paths we want to pre-render based on posts
-    const paths = list.map((post) => ({
+    const paths = list?.map((post) => ({
         params: { id: post._id }
     }));
 
@@ -69,9 +68,9 @@ export async function getStaticPaths() {
 }
 
 Order.propTypes = {
-    item: arrayOf(object)
+    item: object
 };
 Order.defaultProps = {
-    item: []
+    item: {}
 };
 export default Order;

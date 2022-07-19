@@ -2,7 +2,7 @@ import Title from '@components/Admin/Title';
 import mappingType from '@helpers/mappingType';
 import toIDR from '@helpers/toIDR';
 import { PlusIcon } from '@heroicons/react/solid';
-import { loadData } from '@lib/fetch-data';
+import { loadQurban } from '@lib/fetch-data';
 import Layout from 'Layout/admin';
 import { object } from 'prop-types';
 import { arrayOf } from 'prop-types';
@@ -67,7 +67,7 @@ export default function Qurban({ item }) {
 }
 
 export async function getStaticProps() {
-    const item = await loadData();
+    const item = await loadQurban();
 
     return {
         props: {

@@ -3,7 +3,7 @@ import { node } from 'prop-types';
 import React from 'react';
 import Head from 'next/head';
 
-const Admin = ({ children }) => {
+const AdminLayout = ({ children }) => {
     return (
         <>
             <Head>
@@ -19,10 +19,10 @@ const Admin = ({ children }) => {
         </>
     );
 };
-Admin.propTypes = {
+AdminLayout.propTypes = {
     children: node.isRequired
 };
-Admin.defaultProps = {
+AdminLayout.defaultProps = {
     children: <div />
 };
-export default Admin;
+export default AdminLayout;
