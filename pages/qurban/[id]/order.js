@@ -15,7 +15,7 @@ const Order = ({ item }) => {
             <NavbarDetail />
             <div className="container mx-auto mt-14 md:mt-20">
                 <div className="mb-8 md:mt-8 mt-0 md:flex md:px-6">
-                    <div className="md:mr-8">
+                    <div className="md:mr-8 shrink-0">
                         <Image
                             src={image?.photos || Sapi}
                             layout="intrinsic"
@@ -24,7 +24,7 @@ const Order = ({ item }) => {
                             alt="Sapi"
                         />
                     </div>
-                    <div className="mb-8 mx-4 md:mx-0 py-2">
+                    <div className="mb-8 px-4 md:mx-0 py-2 w-full">
                         <DescQurban item={item} />
                     </div>
                 </div>
