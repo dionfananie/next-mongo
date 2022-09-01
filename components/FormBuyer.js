@@ -1,11 +1,13 @@
 import { postBuyer } from '@lib/fetch-data';
+import { string } from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-const FormBuyer = () => {
+const FormBuyer = ({ idQurban }) => {
     const { handleSubmit, register } = useForm();
     const onSubmit = async (data) => {
         const formData = new URLSearchParams();
+        formData.append('id', idQurban);
         for (const key in data) {
             formData.append(key, data[key]);
         }
@@ -80,5 +82,7 @@ const FormBuyer = () => {
         </div>
     );
 };
-
+FormBuyer.propTypes = {
+    idQurban: string.isRequired
+};
 export default FormBuyer;

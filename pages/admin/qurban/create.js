@@ -1,25 +1,36 @@
 import Title from '@components/Admin/Title';
-import { TrashIcon, UploadIcon } from '@heroicons/react/outline';
-// import { postQurban } from '@lib/fetch-data';
+import { object, arrayOf } from 'prop-types';
+
 import Layout from 'Layout/admin';
-import Image from 'next/image';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { loadQurbanType, postQurban } from '@lib/fetch-data';
+import ListType from '@components/Admin/ListType';
+import UploadBox from '@components/UploadBox';
 
-const FormBuyer = () => {
+const FormBuyer = ({ item }) => {
     const { handleSubmit, register } = useForm();
     const [selectedImg, setSelectedImg] = useState();
+    const [imgUpload, setImgUpload] = useState();
+    const [selectedType, setSelectedType] = useState(0);
     const onSubmit = async (data) => {
         const formData = new FormData();
         for (const key in data) {
             formData.append(key, data[key]);
         }
-        // postQurban(formData);
+        formData.append('qurban_type', selectedType);
+        formData.append('image', imgUpload);
+        postQurban(formData);
     };
+
+    const handleChange = (e) => setSelectedType(e);
+
     const handleUpload = (e) => {
         const fileUploaded = e.target.files[0];
-        if (fileUploaded)
+        if (fileUploaded) {
+            setImgUpload(fileUploaded);
             setSelectedImg({ img: URL.createObjectURL(fileUploaded), name: fileUploaded.name });
+        }
     };
 
     const handleRemove = (e) => {
@@ -28,62 +39,34 @@ const FormBuyer = () => {
         setSelectedImg();
     };
 
-    const renderImg = () => {
-        return (
-            <div className="text-center">
-                <Image src={selectedImg.img} width={250} height={140} alt="uploaded file" />
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">{selectedImg?.name}</span>
-                </p>
-                <button
-                    onClick={handleRemove}
-                    className={`text-white focus:ring-4 focus:outline-none rounded-lg text-sm px-4 py-2 text-center bg-red-600 hover:bg-red-800 focus:ring-red-300`}>
-                    <span className="flex items-center">
-                        <TrashIcon className="w-6 h-6 mr-2" />
-                        Hapus Gambar
-                    </span>
-                </button>
-            </div>
-        );
-    };
-
-    const renderUpload = () => {
-        return (
-            <>
-                <UploadIcon className="mb-3 w-10 h-10 text-gray-400" />
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Upload Gambar</span>
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                    SVG, PNG, JPG or GIF (MAX. 800x400px)
-                </p>
-            </>
-        );
-    };
     return (
         <Layout>
             <Title text="Tambah Sapi Qurban" />
             <div className="mb-5 px-4">
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="relative z-0 w-full mb-6 group">
+                <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+                    <div className="relative w-full mb-6 group">
                         <div className="flex justify-center items-center w-full">
                             <label
                                 htmlFor="dropzone-file"
                                 className="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer ">
                                 <div className="flex flex-col justify-center items-center pt-5 pb-6">
-                                    {selectedImg ? renderImg() : renderUpload()}
+                                    <UploadBox
+                                        selectedImg={selectedImg}
+                                        handleRemove={handleRemove}
+                                    />
                                 </div>
                                 <input
                                     id="dropzone-file"
                                     accept=".png, .jpg, .jpeg"
                                     type="file"
                                     className="hidden"
-                                    {...register('image', { onChange: handleUpload })}
+                                    onChange={handleUpload}
+                                    // {...register('image', { onChange: handleUpload })}
                                 />
                             </label>
                         </div>
                     </div>
-                    <div className="relative z-0 w-full mb-6 group">
+                    <div className="relative w-full mb-6 group">
                         <label
                             htmlFor="name"
                             className="block mb-2 text-sm font-medium text-purple-900">
@@ -97,21 +80,15 @@ const FormBuyer = () => {
                             className="bg-purple-50 border border-purple-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5 "
                         />
                     </div>
-                    <div className="relative z-0 w-full mb-6 group">
+                    <div className="relative w-full mb-6 group">
                         <label
                             htmlFor="qurban_type"
                             className="block mb-2 text-sm font-medium text-purple-900">
                             Tipe Sapi
                         </label>
-                        <input
-                            type="text"
-                            id="qurban_type"
-                            required
-                            {...register('qurban_type')}
-                            className="bg-purple-50 border border-purple-300 text-purple-900 text-sm rounded-lg focus:ring-blue-500 focus:border-purple-500 block w-full p-2.5 "
-                        />
+                        <ListType list={item} onChange={handleChange} />
                     </div>
-                    <div className="relative z-0 w-full mb-6 group">
+                    <div className="relative w-full mb-6 group">
                         <label
                             htmlFor="weight"
                             className="block mb-2 text-sm font-medium text-purple-900">
@@ -125,20 +102,26 @@ const FormBuyer = () => {
                             className="bg-purple-50 border border-purple-300 text-purple-900 text-sm rounded-lg focus:ring-blue-500 focus:border-purple-500 block w-full p-2.5 "
                         />
                     </div>
-                    <div className="relative z-0 w-full mb-6 group">
+                    <div className="relative w-full mb-6 group">
                         <label
                             htmlFor="price"
                             className="block mb-2 text-sm font-medium text-purple-900">
                             Harga Sapi
                         </label>
-                        <textarea
-                            type="text"
-                            id="price"
-                            {...register('price')}
-                            className="bg-purple-50 border border-purple-300 text-purple-900 text-sm rounded-lg focus:ring-blue-500 focus:border-purple-500 block w-full p-2.5 "
-                        />
+                        <div className="relative mt-1 rounded-md shadow-sm">
+                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                <span className="text-gray-500 sm:text-sm">Rp</span>
+                            </div>
+
+                            <input
+                                type="text"
+                                id="price"
+                                {...register('price')}
+                                className="bg-purple-50 pl-8 pr-12 border border-purple-300 text-purple-900 text-sm rounded-lg focus:ring-blue-500 focus:border-purple-500 block w-full p-2.5 "
+                            />
+                        </div>
                     </div>
-                    <div className="relative z-0 w-full mb-6 group">
+                    <div className="relative w-full mb-6 group">
                         <label
                             htmlFor="quota"
                             className="block mb-2 text-sm font-medium text-purple-900">
@@ -160,6 +143,27 @@ const FormBuyer = () => {
             </div>
         </Layout>
     );
+};
+
+export async function getStaticProps() {
+    const item = await loadQurbanType();
+
+    return {
+        props: {
+            item
+        },
+        // Next.js will attempt to re-generate the page:
+        // - When a request comes in
+        // - At most once every 10 seconds
+        revalidate: 7200 // In seconds
+    };
+}
+
+FormBuyer.propTypes = {
+    item: arrayOf(object)
+};
+FormBuyer.defaultProps = {
+    item: []
 };
 
 export default FormBuyer;
