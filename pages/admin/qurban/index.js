@@ -16,10 +16,9 @@ export default function Qurban({ items }) {
     const handleDelete = async () => {
         try {
             const resp = await deleteQurban(selectedItem?._id);
-            console.log(resp);
             if (resp?.is_success) setSelectedItem();
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
     return (

@@ -31,5 +31,5 @@ export async function getServerSideProps() {
 }
 
 Home.propTypes = {
-    list: arrayOf(object)
+    list: arrayOf(object).isRequired
 };
