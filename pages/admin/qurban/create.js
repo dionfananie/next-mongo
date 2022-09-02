@@ -7,20 +7,29 @@ import { useForm } from 'react-hook-form';
 import { loadQurbanType, postQurban } from '@lib/fetch-data';
 import ListType from '@components/Admin/ListType';
 import UploadBox from '@components/UploadBox';
+import LoaderState from '@components/LoaderState';
+import { useRouter } from 'next/router';
 
 const FormBuyer = ({ item }) => {
+    const router = useRouter();
+
     const { handleSubmit, register } = useForm();
     const [selectedImg, setSelectedImg] = useState();
-    const [imgUpload, setImgUpload] = useState();
     const [selectedType, setSelectedType] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     const onSubmit = async (data) => {
+        setIsLoading(true);
+        if (!data.image.length) console.error('Silahkan upload gambar terlebih dahulu');
         const formData = new FormData();
         for (const key in data) {
             formData.append(key, data[key]);
         }
-        formData.append('qurban_type', selectedType);
-        formData.append('image', imgUpload);
-        postQurban(formData);
+        formData.set('image', data.image[0]);
+        formData.set('qurban_type', selectedType);
+
+        const resp = await postQurban(formData);
+        if (resp?.is_success) router.push('/admin/qurban');
+        setIsLoading(false);
     };
 
     const handleChange = (e) => setSelectedType(e);
@@ -28,7 +37,6 @@ const FormBuyer = ({ item }) => {
     const handleUpload = (e) => {
         const fileUploaded = e.target.files[0];
         if (fileUploaded) {
-            setImgUpload(fileUploaded);
             setSelectedImg({ img: URL.createObjectURL(fileUploaded), name: fileUploaded.name });
         }
     };
@@ -59,9 +67,8 @@ const FormBuyer = ({ item }) => {
                                     id="dropzone-file"
                                     accept=".png, .jpg, .jpeg"
                                     type="file"
+                                    {...register('image', { onChange: handleUpload })}
                                     className="hidden"
-                                    onChange={handleUpload}
-                                    // {...register('image', { onChange: handleUpload })}
                                 />
                             </label>
                         </div>
@@ -86,7 +93,11 @@ const FormBuyer = ({ item }) => {
                             className="block mb-2 text-sm font-medium text-purple-900">
                             Tipe Sapi
                         </label>
-                        <ListType list={item} onChange={handleChange} />
+                        <ListType
+                            list={item}
+                            {...register('qurban_type')}
+                            onChange={handleChange}
+                        />
                     </div>
                     <div className="relative w-full mb-6 group">
                         <label
@@ -134,11 +145,12 @@ const FormBuyer = ({ item }) => {
                             className="bg-purple-50 border border-purple-300 text-purple-900 text-sm rounded-lg focus:ring-blue-500 focus:border-purple-500 block w-full p-2.5 "
                         />
                     </div>
-                    <input
+                    <button
                         type="submit"
-                        value="Tambah Qurban"
-                        className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
-                    />
+                        value="Submit"
+                        className=" text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                        {isLoading ? <LoaderState /> : 'Tambah Qurban'}
+                    </button>
                 </form>
             </div>
         </Layout>
