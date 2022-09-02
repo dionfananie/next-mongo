@@ -8,15 +8,14 @@ import { loadQurbanType, postQurban } from '@lib/fetch-data';
 import ListType from '@components/Admin/ListType';
 import UploadBox from '@components/UploadBox';
 import LoaderState from '@components/LoaderState';
-import { useRouter } from 'next/router';
+import ModalSuccess from '@components/Modal/Success';
 
 const FormBuyer = ({ item }) => {
-    const router = useRouter();
-
-    const { handleSubmit, register } = useForm();
+    const { handleSubmit, register, reset } = useForm();
     const [selectedImg, setSelectedImg] = useState();
     const [selectedType, setSelectedType] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+    const [isShow, setIsShow] = useState(false);
     const onSubmit = async (data) => {
         setIsLoading(true);
         if (!data.image.length) console.error('Silahkan upload gambar terlebih dahulu');
@@ -26,9 +25,11 @@ const FormBuyer = ({ item }) => {
         }
         formData.set('image', data.image[0]);
         formData.set('qurban_type', selectedType);
-
         const resp = await postQurban(formData);
-        if (resp?.is_success) router.push('/admin/qurban');
+        if (resp?.is_success) setIsShow(true);
+        reset();
+        setSelectedImg();
+        setSelectedType(0);
         setIsLoading(false);
     };
 
@@ -50,6 +51,7 @@ const FormBuyer = ({ item }) => {
     return (
         <Layout>
             <Title text="Tambah Sapi Qurban" />
+            {isShow && <ModalSuccess onClose={() => setIsShow(false)} />}
             <div className="mb-5 px-4">
                 <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                     <div className="relative w-full mb-6 group">
@@ -148,7 +150,7 @@ const FormBuyer = ({ item }) => {
                     <button
                         type="submit"
                         value="Submit"
-                        className=" text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                        className=" text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
                         {isLoading ? <LoaderState /> : 'Tambah Qurban'}
                     </button>
                 </form>

@@ -2,21 +2,38 @@ import Title from '@components/Admin/Title';
 import mappingType from '@helpers/mappingType';
 import toIDR from '@helpers/toIDR';
 import { PlusIcon } from '@heroicons/react/solid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { deleteQurban, loadQurban } from '@lib/fetch-data';
 import Layout from 'Layout/admin';
-import { object, arrayOf } from 'prop-types';
 import { useRouter } from 'next/router';
 import ModalDelete from '@components/Admin/ModalDelete';
+import LoaderTable from '@components/LoaderTable';
 
-export default function Qurban({ items }) {
+export default function Qurban() {
     const router = useRouter();
     const [selectedItem, setSelectedItem] = useState();
-    const handleOpen = (id) => setSelectedItem(id);
+    const [items, setItems] = useState(null);
+    const [isLoading, setLoading] = useState(false);
+
+    const fetchitems = async () => {
+        const resp = await loadQurban();
+        setItems(resp);
+    };
+    useEffect(() => {
+        setLoading(true);
+        fetchitems();
+        setLoading(false);
+    }, []);
+
     const handleDelete = async () => {
         try {
+            setLoading(true);
             const resp = await deleteQurban(selectedItem?._id);
-            if (resp?.is_success) setSelectedItem();
+            if (resp?.is_success) {
+                setSelectedItem();
+                fetchitems();
+            }
+            setLoading(false);
         } catch (error) {
             console.error(error);
         }
@@ -59,30 +76,34 @@ export default function Qurban({ items }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {items?.map((item) => {
-                            const { _id, name, qurban_type, quota, price, weight } = item;
-                            return (
-                                <tr className="bg-white border-b" key={_id}>
-                                    <th
-                                        scope="row"
-                                        className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
-                                        {name}
-                                    </th>
-                                    <td className="px-6 py-4">{toIDR(price)}</td>
-                                    <td className="px-6 py-4">{quota}</td>
-                                    <td className="px-6 py-4">{mappingType(qurban_type)}</td>
-                                    <td className="px-6 py-4">{weight} kg</td>
-                                    <td className="px-6 py-4">
-                                        <button
-                                            data-modal-toggle="popup-modal"
-                                            onClick={() => handleOpen(item)}
-                                            className="text-white focus:ring-4 focus:outline-none rounded-lg text-sm px-4 py-1 text-center bg-red-600 hover:bg-red-800 focus:ring-red-300">
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                        {isLoading ? (
+                            <LoaderTable />
+                        ) : (
+                            items?.map((item) => {
+                                const { _id, name, qurban_type, quota, price, weight } = item;
+                                return (
+                                    <tr className="bg-white border-b" key={_id}>
+                                        <th
+                                            scope="row"
+                                            className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
+                                            {name}
+                                        </th>
+                                        <td className="px-6 py-4">{toIDR(price)}</td>
+                                        <td className="px-6 py-4">{quota}</td>
+                                        <td className="px-6 py-4">{mappingType(qurban_type)}</td>
+                                        <td className="px-6 py-4">{weight} kg</td>
+                                        <td className="px-6 py-4">
+                                            <button
+                                                items-modal-toggle="popup-modal"
+                                                onClick={() => setSelectedItem(item)}
+                                                className="text-white focus:ring-4 focus:outline-none rounded-lg text-sm px-4 py-1 text-center bg-red-600 hover:bg-red-800 focus:ring-red-300">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        )}
                     </tbody>
                 </table>
             </div>
@@ -96,24 +117,3 @@ export default function Qurban({ items }) {
         </Layout>
     );
 }
-
-export async function getStaticProps() {
-    const items = await loadQurban();
-
-    return {
-        props: {
-            items
-        },
-        // Next.js will attempt to re-generate the page:
-        // - When a request comes in
-        // - At most once every 10 seconds
-        revalidate: 7200 // In seconds
-    };
-}
-
-Qurban.propTypes = {
-    items: arrayOf(object)
-};
-Qurban.defaultProps = {
-    items: []
-};
