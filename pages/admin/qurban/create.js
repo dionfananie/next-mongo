@@ -9,35 +9,37 @@ import ListType from '@components/Admin/ListType';
 import UploadBox from '@components/UploadBox';
 import LoaderState from '@components/LoaderState';
 import ModalSuccess from '@components/Modal/Success';
-
 const FormBuyer = ({ item }) => {
-    const { handleSubmit, register, reset } = useForm();
+    const { handleSubmit, register, reset, setValue } = useForm();
     const [selectedImg, setSelectedImg] = useState();
-    const [selectedType, setSelectedType] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [isShow, setIsShow] = useState(false);
+
     const onSubmit = async (data) => {
         setIsLoading(true);
-        if (!data.image.length) console.error('Silahkan upload gambar terlebih dahulu');
+        if (!data.image) {
+            console.error('Silahkan upload gambar terlebih dahulu');
+            setIsLoading(false);
+        }
         const formData = new FormData();
         for (const key in data) {
             formData.append(key, data[key]);
         }
-        formData.set('image', data.image[0]);
-        formData.set('qurban_type', selectedType);
         const resp = await postQurban(formData);
         if (resp?.is_success) setIsShow(true);
         reset();
+        setValue('qurban_type', 0);
+        setValue('image', null);
         setSelectedImg();
-        setSelectedType(0);
         setIsLoading(false);
     };
 
-    const handleChange = (e) => setSelectedType(e);
+    const handleChange = (e) => setValue('qurban_type', e);
 
     const handleUpload = (e) => {
         const fileUploaded = e.target.files[0];
         if (fileUploaded) {
+            setValue('image', fileUploaded);
             setSelectedImg({ img: URL.createObjectURL(fileUploaded), name: fileUploaded.name });
         }
     };
@@ -46,6 +48,7 @@ const FormBuyer = ({ item }) => {
         e.stopPropagation();
         e.preventDefault();
         setSelectedImg();
+        setValue('image', null);
     };
 
     return (
@@ -122,16 +125,12 @@ const FormBuyer = ({ item }) => {
                             Harga Sapi
                         </label>
                         <div className="relative mt-1 rounded-md shadow-sm">
-                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                <span className="text-gray-500 sm:text-sm">Rp</span>
-                            </div>
-
-                            <input
+                            {/* <input
                                 type="text"
                                 id="price"
                                 {...register('price')}
                                 className="bg-purple-50 pl-8 pr-12 border border-purple-300 text-purple-900 text-sm rounded-lg focus:ring-blue-500 focus:border-purple-500 block w-full p-2.5 "
-                            />
+                            /> */}
                         </div>
                     </div>
                     <div className="relative w-full mb-6 group">
