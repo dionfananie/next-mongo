@@ -1,19 +1,35 @@
 import { postBuyer } from '@lib/fetch-data';
+import { useRouter } from 'next/router';
 import { string } from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import LoaderState from './LoaderState';
+import ModalSuccess from './Modal/Success';
 
 const FormBuyer = ({ idQurban }) => {
+    const router = useRouter();
     const { handleSubmit, register } = useForm();
+    const [isLoading, setIsLoading] = useState(false);
+    const [isShow, setIsShow] = useState(false);
+
     const onSubmit = async (data) => {
-        const formData = new URLSearchParams();
-        formData.append('id', idQurban);
-        for (const key in data) {
-            formData.append(key, data[key]);
+        try {
+            setIsLoading(true);
+            const formData = new URLSearchParams();
+            formData.append('qurbanId', idQurban);
+            for (const key in data) {
+                formData.append(key, data[key]);
+            }
+            const resp = await postBuyer(formData.toString());
+            if (resp?.is_success) setIsShow(true);
+        } catch (error) {
+            console.error(error);
         }
-        postBuyer(formData.toString());
     };
 
+    const onClose = () => {
+        router.push(`/qurban/${idQurban}`);
+    };
     return (
         <div className="mb-5 px-4">
             <p className="text-2xl mb-4">Form Pemesanan</p>
@@ -73,12 +89,13 @@ const FormBuyer = ({ idQurban }) => {
                         className="bg-purple-50 border border-purple-300 text-purple-900 text-sm rounded-lg focus:ring-blue-500 focus:border-purple-500 block w-full p-2.5 "
                     />
                 </div>
-                <input
+                <button
                     type="submit"
-                    value="Pesan"
-                    className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
-                />
+                    className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                    {isLoading ? <LoaderState /> : 'Pesan'}
+                </button>
             </form>
+            {isShow && <ModalSuccess text="Sukses Memesan Hewan Qurban" onClose={onClose} />}
         </div>
     );
 };

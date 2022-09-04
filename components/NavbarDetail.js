@@ -1,8 +1,9 @@
 import React from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
+import { string } from 'prop-types';
 
-const NavbarDetail = () => {
+const NavbarDetail = ({ text }) => {
     const router = useRouter();
     return (
         <nav className="bg-white shadow-lg fixed z-10 w-full top-0">
@@ -12,11 +13,16 @@ const NavbarDetail = () => {
                         className="h-5 w-5 text-black-500 mr-4"
                         onClick={() => router.back()}
                     />
-                    <p className="font-semibold text-lg">Pemesanan Sapi</p>
+                    <p className="font-semibold text-lg">{text}</p>
                 </div>
             </div>
         </nav>
     );
 };
-
+NavbarDetail.propTypes = {
+    text: string
+};
+NavbarDetail.defaultProps = {
+    text: ''
+};
 export default NavbarDetail;

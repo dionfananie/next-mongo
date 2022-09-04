@@ -15,9 +15,7 @@ const TableBuyers = ({ list }) => {
                         <th scope="col" className="px-6 py-3">
                             Alamat
                         </th>
-                        <th scope="col" className="px-6 py-3">
-                            No Handphone
-                        </th>
+
                         <th scope="col" className="px-6 py-3">
                             Keterangan
                         </th>
@@ -25,7 +23,7 @@ const TableBuyers = ({ list }) => {
                 </thead>
                 <tbody>
                     {list?.map((item) => {
-                        const { _id, name, desc, handphone, address } = item;
+                        const { _id, name, desc, address } = item;
                         return (
                             <tr className="bg-white border-b" key={_id}>
                                 <th
@@ -34,7 +32,6 @@ const TableBuyers = ({ list }) => {
                                     {name}
                                 </th>
                                 <td className="px-6 py-4">{address}</td>
-                                <td className="px-6 py-4">{handphone}</td>
                                 <td className="px-6 py-4">{desc}</td>
                             </tr>
                         );

@@ -12,7 +12,7 @@ const Order = ({ item }) => {
     const { image, _id } = item || {};
     return (
         <>
-            <NavbarDetail />
+            <NavbarDetail text="Pemesanan Hewan Qurban" />
             <div className="container mx-auto mt-14 md:mt-20">
                 <div className="mb-8 md:mt-8 mt-0 md:flex md:px-6">
                     <div className="md:mr-8 shrink-0">

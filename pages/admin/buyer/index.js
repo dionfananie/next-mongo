@@ -7,7 +7,8 @@ import Title from '@components/Admin/Title';
 import { CheckIcon } from '@heroicons/react/solid';
 import ListOption from '@components/Admin/ListOption';
 import AdminLayout from 'Layout/admin';
-
+import styles from '@styles/buyer.module.css';
+import dayjs from 'dayjs';
 function Buyer({ item, listQurban }) {
     const [itemFiltered, setItemFiltered] = useState(item);
     const handleChange = (value) => {
@@ -25,7 +26,8 @@ function Buyer({ item, listQurban }) {
                 <Title text="Daftar Pembeli" />
                 <ListOption list={listQurban} onChange={handleChange} />
             </div>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-3 px-4 sm:px-0">
+            <div
+                className={`${styles.wrapperTable} relative h-5/6 overflow-x-auto shadow-md sm:rounded-lg my-3 px-4 sm:px-0`}>
                 <table className="w-full text-sm text-left text-gray-500 ">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
                         <tr>
@@ -35,6 +37,9 @@ function Buyer({ item, listQurban }) {
 
                             <th scope="col" className="px-6 py-3">
                                 Keterangan
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Tanggal
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Kelunasan
@@ -47,7 +52,7 @@ function Buyer({ item, listQurban }) {
                     {Boolean(itemFiltered.length) && (
                         <tbody>
                             {itemFiltered?.map((item) => {
-                                const { _id, name, desc, handphone, address } = item;
+                                const { _id, name, desc, handphone, address, date } = item;
                                 return (
                                     <tr className="bg-white border-b" key={_id}>
                                         <th
@@ -60,6 +65,9 @@ function Buyer({ item, listQurban }) {
                                             {handphone}
                                         </th>
                                         <td className="px-6 py-4">{desc}</td>
+                                        <td className="px-6 py-4">
+                                            {dayjs(date).format('DD-MMM-YYYY')}
+                                        </td>
                                         <td className="px-6 py-4">
                                             <span className="bg-gray-100 text-gray-800 my-1 text-xs font-semibold px-2 py-1 rounded">
                                                 Belum Lunas

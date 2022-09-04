@@ -54,7 +54,9 @@ const FormBuyer = ({ item }) => {
     return (
         <Layout>
             <Title text="Tambah Sapi Qurban" />
-            {isShow && <ModalSuccess onClose={() => setIsShow(false)} />}
+            {isShow && (
+                <ModalSuccess onClose={() => setIsShow(false)} text="Sukses Menambah Qurban" />
+            )}
             <div className="mb-5 px-4">
                 <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                     <div className="relative w-full mb-6 group">
@@ -125,12 +127,12 @@ const FormBuyer = ({ item }) => {
                             Harga Sapi
                         </label>
                         <div className="relative mt-1 rounded-md shadow-sm">
-                            {/* <input
+                            <input
                                 type="text"
                                 id="price"
                                 {...register('price')}
                                 className="bg-purple-50 pl-8 pr-12 border border-purple-300 text-purple-900 text-sm rounded-lg focus:ring-blue-500 focus:border-purple-500 block w-full p-2.5 "
-                            /> */}
+                            />
                         </div>
                     </div>
                     <div className="relative w-full mb-6 group">
