@@ -40,7 +40,13 @@ const ModalDelete = ({ onClose, onSubmit, text }) => {
                                 strokeWidth="2"
                                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <h3 className="mb-5 text-lg font-normal text-gray-500">{text}</h3>
+                        {text && (
+                            <h3
+                                className="mb-5 text-lg font-normal text-gray-500"
+                                dangerouslySetInnerHTML={{ __html: text }}
+                            />
+                        )}
+
                         <button
                             onClick={onSubmit}
                             type="button"

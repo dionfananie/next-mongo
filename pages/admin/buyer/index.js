@@ -33,7 +33,11 @@ function Buyer() {
     };
 
     const handleDelete = async () => {
-        await deleteBuyer(selectedItem?.item);
+        const resp = await deleteBuyer(selectedItem?._id);
+        if (resp.is_success) {
+            fetchData();
+            setSelectedItem();
+        }
     };
 
     useEffect(() => fetchData(), []);
