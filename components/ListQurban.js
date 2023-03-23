@@ -17,6 +17,7 @@ const ListQurban = ({ item, handleClick }) => {
                         width={450}
                         height={280}
                         alt="Sapi"
+                        loading="lazy"
                         className="rounded-tl-lg rounded-tr-lg"
                     />
                 </a>

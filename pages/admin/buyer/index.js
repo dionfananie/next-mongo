@@ -1,31 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { loadBuyersAll, loadQurban } from '@lib/fetch-data';
-import { arrayOf } from 'prop-types';
-import { object } from 'prop-types';
+import { deleteBuyer, loadBuyersAll, loadQurban } from '@lib/fetch-data';
 import Title from '@components/Admin/Title';
-import { CheckIcon } from '@heroicons/react/solid';
 import ListOption from '@components/Admin/ListOption';
 import AdminLayout from 'Layout/admin';
 import styles from '@styles/buyer.module.css';
 import dayjs from 'dayjs';
-function Buyer({ item, listQurban }) {
-    const [itemFiltered, setItemFiltered] = useState(item);
+import MarkPaid from '@components/Buyer/MarkPaid';
+import Delete from '@components/CTA/Delete';
+import ModalDelete from '@components/Admin/ModalDelete';
+function Buyer() {
+    const [allItem, setAllItem] = useState([]);
+    const [itemFiltered, setItemFiltered] = useState([]);
+    const [listQurban, setListQurban] = useState([]);
+    const [selectedItem, setSelectedItem] = useState();
+
     const handleChange = (value) => {
         if (value === 'all') {
-            setItemFiltered(item);
+            setItemFiltered(allItem);
             return;
         }
-        const filtered = item.filter((v) => v.qurbanId === value);
+        const filtered = allItem.filter((v) => v.qurbanId === value);
         setItemFiltered(filtered);
     };
+
+    const fetchData = async () => {
+        const item = await loadBuyersAll();
+        const list = await loadQurban({ projection: JSON.stringify({ name: 1 }) });
+        setAllItem(item);
+        setItemFiltered(item);
+        setListQurban(list);
+    };
+
+    const handleDelete = async () => {
+        await deleteBuyer(selectedItem?.item);
+    };
+
+    useEffect(() => fetchData(), []);
 
     return (
         <>
             <div className="flex justify-between items-center">
-                <Title text="Daftar Pembeli" />
+                <Title text="Daftar Penqurban" />
                 <ListOption list={listQurban} onChange={handleChange} />
             </div>
+            <h3 className="text-slate-500 mb-3">Total: {itemFiltered?.length || 0} Orang</h3>
             <div
                 className={`${styles.wrapperTable} relative h-5/6 overflow-x-auto shadow-md sm:rounded-lg my-3 px-4 sm:px-0`}>
                 <table className="w-full text-sm text-left text-gray-500 ">
@@ -74,13 +93,10 @@ function Buyer({ item, listQurban }) {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <button
-                                                className={`text-white focus:ring-4 focus:outline-none py-1 rounded-lg text-sm px-4 text-center bg-purple-600 hover:bg-purple-800 focus:ring-purple-300`}>
-                                                <span className="flex items-center">
-                                                    <CheckIcon className="w-6 h-6 mr-2" />
-                                                    Tandai Sudah Lunas
-                                                </span>
-                                            </button>
+                                            <div className="flex items-center">
+                                                <MarkPaid />
+                                                <Delete onClick={() => setSelectedItem(item)} />
+                                            </div>
                                         </td>
                                     </tr>
                                 );
@@ -94,6 +110,15 @@ function Buyer({ item, listQurban }) {
                     </div>
                 )}
             </div>
+            {Boolean(selectedItem) && (
+                <ModalDelete
+                    onSubmit={handleDelete}
+                    onClose={() => setSelectedItem(0)}
+                    text={`Anda yakin akan menghapus daftar penqurban <b>${
+                        selectedItem?.name || ''
+                    }</b> ini?`}
+                />
+            )}
         </>
     );
 }
@@ -101,27 +126,3 @@ Buyer.getLayout = function getLayout(page) {
     return <AdminLayout>{page}</AdminLayout>;
 };
 export default Buyer;
-
-export async function getStaticProps() {
-    const item = await loadBuyersAll();
-    const listQurban = await loadQurban({ projection: JSON.stringify({ name: 1 }) });
-    return {
-        props: {
-            item,
-            listQurban
-        },
-        // Next.js will attempt to re-generate the page:
-        // - When a request comes in
-        // - At most once every 10 seconds
-        revalidate: 3600 * 60 * 3 // In seconds
-    };
-}
-
-Buyer.propTypes = {
-    item: arrayOf(object),
-    listQurban: arrayOf(object)
-};
-Buyer.defaultProps = {
-    item: [],
-    listQurban: []
-};

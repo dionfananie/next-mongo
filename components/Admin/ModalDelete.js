@@ -1,6 +1,6 @@
-import { func, string } from 'prop-types';
+import { func, node } from 'prop-types';
 
-const ModalDelete = ({ onClose, onSubmit, name }) => {
+const ModalDelete = ({ onClose, onSubmit, text }) => {
     return (
         <div
             tabIndex="-1"
@@ -40,9 +40,7 @@ const ModalDelete = ({ onClose, onSubmit, name }) => {
                                 strokeWidth="2"
                                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <h3 className="mb-5 text-lg font-normal text-gray-500">
-                            Anda yakin akan menghapus hewan qurban <b>{name}</b> ini?
-                        </h3>
+                        <h3 className="mb-5 text-lg font-normal text-gray-500">{text}</h3>
                         <button
                             onClick={onSubmit}
                             type="button"
@@ -64,7 +62,8 @@ const ModalDelete = ({ onClose, onSubmit, name }) => {
 
 ModalDelete.propTypes = {
     onClose: func.isRequired,
-    name: string.isRequired,
-    onSubmit: func.isRequired
+    // name: string.isRequired,
+    onSubmit: func.isRequired,
+    text: node.isRequired
 };
 export default ModalDelete;

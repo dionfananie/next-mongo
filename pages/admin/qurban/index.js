@@ -8,6 +8,7 @@ import Layout from 'Layout/admin';
 import { useRouter } from 'next/router';
 import ModalDelete from '@components/Admin/ModalDelete';
 import LoaderTable from '@components/LoaderTable';
+import Delete from '@components/CTA/Delete';
 
 export default function Qurban() {
     const router = useRouter();
@@ -93,12 +94,7 @@ export default function Qurban() {
                                         <td className="px-6 py-4">{mappingType(qurban_type)}</td>
                                         <td className="px-6 py-4">{weight} kg</td>
                                         <td className="px-6 py-4">
-                                            <button
-                                                items-modal-toggle="popup-modal"
-                                                onClick={() => setSelectedItem(item)}
-                                                className="text-white focus:ring-4 focus:outline-none rounded-lg text-sm px-4 py-1 text-center bg-red-600 hover:bg-red-800 focus:ring-red-300">
-                                                Delete
-                                            </button>
+                                            <Delete onClick={() => setSelectedItem(item)} />
                                         </td>
                                     </tr>
                                 );
@@ -111,7 +107,9 @@ export default function Qurban() {
                 <ModalDelete
                     onSubmit={handleDelete}
                     onClose={() => setSelectedItem(0)}
-                    name={selectedItem?.name}
+                    text={`Anda yakin akan menghapus hewan qurban <b>${
+                        selectedItem?.name || ''
+                    }</b> ini?`}
                 />
             )}
         </Layout>

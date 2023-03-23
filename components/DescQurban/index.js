@@ -2,7 +2,7 @@ import mappingType from '@helpers/mappingType';
 import toIDR from '@helpers/toIDR';
 import { object } from 'prop-types';
 import React from 'react';
-import Quota from './Quota';
+import Quota from '../Quota';
 const admPrice = 1575000;
 
 const DescQurban = ({ item }) => {

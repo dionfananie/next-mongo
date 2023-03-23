@@ -1,13 +1,25 @@
 import Title from '@components/Admin/Title';
+import TipeQurban from '@components/TipeQurban';
+import DeleteTipe from '@components/TipeQurban/DeleteTipe';
 import { loadQurbanType } from '@lib/fetch-data';
 import Layout from 'Layout/admin';
-import { object } from 'prop-types';
-import { arrayOf } from 'prop-types';
+import { useEffect, useState } from 'react';
 
-export default function QurbanType({ item }) {
+export default function QurbanType() {
+    const [listTipe, setListTipe] = useState([]);
+
+    const fetchData = async () => {
+        const item = await loadQurbanType();
+        setListTipe(item);
+    };
+    useEffect(() => fetchData(), []);
+
     return (
         <Layout>
-            <Title text="Tipe Qurban" />
+            <div className="flex justify-between">
+                <Title text="Tipe Qurban" />
+                <TipeQurban fetchData={fetchData} />
+            </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-3 px-4 sm:px-0">
                 <table className="w-full text-sm text-left text-gray-500 ">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
@@ -18,10 +30,13 @@ export default function QurbanType({ item }) {
                             <th scope="col" className="px-6 py-3">
                                 Nama Sapi
                             </th>
+                            <th scope="col" className="px-6 py-3">
+                                Action
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {item?.map((item) => {
+                        {listTipe?.map((item) => {
                             const { _id, name, type } = item;
                             return (
                                 <tr className="bg-white border-b" key={_id}>
@@ -33,6 +48,9 @@ export default function QurbanType({ item }) {
                                     <th scope="row" className="px-6 py-4 whitespace-nowrap">
                                         {name}
                                     </th>
+                                    <th scope="row" className="px-6 py-4 whitespace-nowrap">
+                                        <DeleteTipe id={_id} fetch={fetchData} />
+                                    </th>
                                 </tr>
                             );
                         })}
@@ -42,24 +60,3 @@ export default function QurbanType({ item }) {
         </Layout>
     );
 }
-
-export async function getStaticProps() {
-    const item = await loadQurbanType();
-
-    return {
-        props: {
-            item
-        },
-        // Next.js will attempt to re-generate the page:
-        // - When a request comes in
-        // - At most once every 10 seconds
-        revalidate: 7200 // In seconds
-    };
-}
-
-QurbanType.propTypes = {
-    item: arrayOf(object)
-};
-QurbanType.defaultProps = {
-    item: []
-};

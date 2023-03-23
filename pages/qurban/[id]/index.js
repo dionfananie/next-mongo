@@ -15,16 +15,18 @@ const DetailQurban = ({ item, listBuyers }) => {
             <NavbarDetail text="Detail Hewan Qurban" />
             <div className="container mx-auto mt-14 md:mt-20">
                 <div className="mb-8 md:mt-8 mt-0 md:flex">
-                    <div className="md:mr-8">
+                    <div className="md:mr-8 shrink-0">
                         <Image
                             src={Sapi}
                             layout="intrinsic"
                             width="600px"
                             height="350px"
                             alt="Sapi"
+                            loading="lazy"
+                            className="rounded"
                         />
                     </div>
-                    <div className="mb-8 mx-4 md:mx-0 py-2">
+                    <div className="mb-8 mx-4 md:mx-0 py-2 w-full">
                         <DescQurban item={item} />
                     </div>
                 </div>

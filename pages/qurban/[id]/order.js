@@ -22,6 +22,8 @@ const Order = ({ item }) => {
                             width="600px"
                             height="350px"
                             alt="Sapi"
+                            loading="lazy"
+                            className="rounded"
                         />
                     </div>
                     <div className="mb-8 px-4 md:mx-0 py-2 w-full">
