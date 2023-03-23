@@ -38,7 +38,7 @@ export default function Qurban({ list }) {
 
 export async function getServerSideProps() {
     try {
-        const res = await fetch(`${process.env.API_URL}/qurban`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL_LOCAL}/qurban`);
         const data = await res.json();
         return {
             props: { list: data }
