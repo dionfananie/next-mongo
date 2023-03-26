@@ -9,7 +9,7 @@ import NavbarDetail from '@components/NavbarDetail';
 import { object } from 'prop-types';
 
 const Order = ({ item }) => {
-    const { image, _id } = item || {};
+    const { image } = item || {};
     return (
         <>
             <NavbarDetail text="Pemesanan Hewan Qurban" />
@@ -30,7 +30,7 @@ const Order = ({ item }) => {
                         <DescQurban item={item} />
                     </div>
                 </div>
-                <FormBuyer idQurban={_id} />
+                <FormBuyer item={item} />
             </div>
         </>
     );

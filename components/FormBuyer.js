@@ -1,22 +1,22 @@
 import { postBuyer } from '@lib/fetch-data';
 import { useRouter } from 'next/router';
-import { string } from 'prop-types';
+import { object } from 'prop-types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import LoaderState from './LoaderState';
 import ModalSuccess from './Modal/Success';
 
-const FormBuyer = ({ idQurban }) => {
+const FormBuyer = ({ item }) => {
     const router = useRouter();
     const { handleSubmit, register } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [isShow, setIsShow] = useState(false);
-
+    const { _id: id, name, qurban_type } = item || {};
     const onSubmit = async (data) => {
         try {
             setIsLoading(true);
             const formData = new URLSearchParams();
-            formData.append('qurbanId', idQurban);
+            formData.append('qurban', JSON.stringify({ qurban_id: id, name, qurban_type }));
             for (const key in data) {
                 formData.append(key, data[key]);
             }
@@ -28,7 +28,7 @@ const FormBuyer = ({ idQurban }) => {
     };
 
     const onClose = () => {
-        router.push(`/qurban/${idQurban}`);
+        router.push(`/qurban/${id}`);
     };
     return (
         <div className="mb-5 px-4">
@@ -100,6 +100,6 @@ const FormBuyer = ({ idQurban }) => {
     );
 };
 FormBuyer.propTypes = {
-    idQurban: string.isRequired
+    item: object.isRequired
 };
 export default FormBuyer;

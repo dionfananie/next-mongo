@@ -20,7 +20,7 @@ function Buyer() {
             setItemFiltered(allItem);
             return;
         }
-        const filtered = allItem.filter((v) => v.qurbanId === value);
+        const filtered = allItem.filter((v) => v?.qurban?.qurban_id === value);
         setItemFiltered(filtered);
     };
 
@@ -52,10 +52,13 @@ function Buyer() {
             <div
                 className={`${styles.wrapperTable} relative h-5/6 overflow-x-auto shadow-md sm:rounded-lg my-3 px-4 sm:px-0`}>
                 <table className="w-full text-sm text-left text-gray-500 ">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
                             <th scope="col" className="px-6 py-3">
                                 Nama Pemesan
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Sapi Qurban
                             </th>
 
                             <th scope="col" className="px-6 py-3">
@@ -75,30 +78,32 @@ function Buyer() {
                     {Boolean(itemFiltered.length) && (
                         <tbody>
                             {itemFiltered?.map((item) => {
-                                const { _id, name, desc, handphone, address, date } = item;
+                                const { _id, name, desc, handphone, address, date, qurban } = item;
+                                const { name: nameQurban } = qurban || {};
                                 return (
                                     <tr className="bg-white border-b" key={_id}>
                                         <th
                                             scope="row"
-                                            className="px-6 py-4 font-medium whitespace-nowrap">
+                                            className="px-3 py-4 font-medium whitespace-nowrap">
                                             <span className="text-gray-900 text-lg">{name}</span>
                                             <br />
                                             {address}
                                             <br />
                                             {handphone}
                                         </th>
-                                        <td className="px-6 py-4">{desc}</td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-3 py-4">{nameQurban}</td>
+                                        <td className="px-3 py-4 break-all max-w-sm">{desc}</td>
+                                        <td className="px-3 py-4">
                                             {dayjs(date).format('DD-MMM-YYYY')}
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <span className="bg-gray-100 text-gray-800 my-1 text-xs font-semibold px-2 py-1 rounded">
+                                        <td className="px-3 py-4 max-w-xl">
+                                            <span className="bg-gray-100 text-gray-800 my-1 text-xs font-semibold px-2 py-1 rounded max-w-xl">
                                                 Belum Lunas
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center">
-                                                <MarkPaid />
+                                        <td className="px-3 py-4">
+                                            <MarkPaid />
+                                            <div className="mt-2">
                                                 <Delete onClick={() => setSelectedItem(item)} />
                                             </div>
                                         </td>
