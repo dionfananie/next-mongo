@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { deleteBuyer, loadBuyersAll, loadQurban } from '@lib/fetch-data';
+import { deleteBuyer, loadBuyersAll, loadQurban, updateBuyer } from '@lib/fetch-data';
 import Title from '@components/Admin/Title';
 import ListOption from '@components/Admin/ListOption';
 import AdminLayout from 'Layout/admin';
@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import MarkPaid from '@components/Buyer/MarkPaid';
 import Delete from '@components/CTA/Delete';
 import ModalDelete from '@components/Admin/ModalDelete';
+import IconPaid from '@components/Buyer/IconPaid';
 function Buyer() {
     const [allItem, setAllItem] = useState([]);
     const [itemFiltered, setItemFiltered] = useState([]);
@@ -34,7 +35,15 @@ function Buyer() {
 
     const handleDelete = async () => {
         const resp = await deleteBuyer(selectedItem?._id);
-        if (resp.is_success) {
+        if (resp?.is_success) {
+            fetchData();
+            setSelectedItem();
+        }
+    };
+
+    const handleHasPaid = async (id) => {
+        const resp = await updateBuyer(id);
+        if (resp?.is_success) {
             fetchData();
             setSelectedItem();
         }
@@ -78,7 +87,16 @@ function Buyer() {
                     {Boolean(itemFiltered.length) && (
                         <tbody>
                             {itemFiltered?.map((item) => {
-                                const { _id, name, desc, handphone, address, date, qurban } = item;
+                                const {
+                                    _id,
+                                    name,
+                                    desc,
+                                    handphone,
+                                    address,
+                                    date,
+                                    qurban,
+                                    has_paid
+                                } = item;
                                 const { name: nameQurban } = qurban || {};
                                 return (
                                     <tr className="bg-white border-b" key={_id}>
@@ -92,7 +110,9 @@ function Buyer() {
                                             {handphone}
                                         </th>
                                         <td className="px-3 py-4">{nameQurban}</td>
-                                        <td className="px-3 py-4 break-all max-w-sm">{desc}</td>
+                                        <td className="px-3 py-4 break-all max-w-sm">
+                                            {desc} <br />
+                                        </td>
                                         <td className="px-3 py-4">
                                             {dayjs(date).format('DD-MMM-YYYY')}
                                         </td>
@@ -102,7 +122,16 @@ function Buyer() {
                                             </span>
                                         </td>
                                         <td className="px-3 py-4">
-                                            <MarkPaid />
+                                            {has_paid && (
+                                                <>
+                                                    <IconPaid />
+                                                    <hr className="my-2" />
+                                                </>
+                                            )}
+                                            <MarkPaid
+                                                hasPaid={has_paid}
+                                                onClick={() => handleHasPaid(item?._id)}
+                                            />
                                             <div className="mt-2">
                                                 <Delete onClick={() => setSelectedItem(item)} />
                                             </div>

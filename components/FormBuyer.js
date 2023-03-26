@@ -17,6 +17,7 @@ const FormBuyer = ({ item }) => {
             setIsLoading(true);
             const formData = new URLSearchParams();
             formData.append('qurban', JSON.stringify({ qurban_id: id, name, qurban_type }));
+            formData.append('hasPaid', false);
             for (const key in data) {
                 formData.append(key, data[key]);
             }
