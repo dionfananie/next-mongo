@@ -1,7 +1,5 @@
 import { ChatIcon } from '@heroicons/react/solid';
-import useSWR from 'swr';
 const WAMessages = () => {
-    useSWR();
     return (
         <button
             // onClick={onClick}
