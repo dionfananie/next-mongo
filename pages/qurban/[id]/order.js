@@ -18,9 +18,8 @@ const Order = ({ item }) => {
                     <div className="md:mr-8 shrink-0">
                         <Image
                             src={image?.photos || Sapi}
-                            layout="intrinsic"
-                            width="600px"
-                            height="350px"
+                            width="600"
+                            height="350"
                             alt="Sapi"
                             loading="lazy"
                             className="rounded"

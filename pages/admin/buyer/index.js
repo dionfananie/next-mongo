@@ -10,6 +10,8 @@ import MarkPaid from '@components/Buyer/MarkPaid';
 import Delete from '@components/CTA/Delete';
 import ModalDelete from '@components/Admin/ModalDelete';
 import IconPaid from '@components/Buyer/IconPaid';
+import { ChatIcon } from '@heroicons/react/outline';
+import WAMessages from '@components/Buyer/WaMessages';
 function Buyer() {
     const [allItem, setAllItem] = useState([]);
     const [itemFiltered, setItemFiltered] = useState([]);
@@ -135,6 +137,7 @@ function Buyer() {
                                             <div className="mt-2">
                                                 <Delete onClick={() => setSelectedItem(item)} />
                                             </div>
+                                            <WAMessages />
                                         </td>
                                     </tr>
                                 );
