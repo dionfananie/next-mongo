@@ -12,7 +12,9 @@ export default function QurbanType() {
         const item = await loadQurbanType();
         setListTipe(item);
     };
-    useEffect(() => fetchData(), []);
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <Layout>

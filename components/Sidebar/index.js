@@ -5,24 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '@assets/logo_dkm.png';
 import { useRouter } from 'next/router';
+import { LIST_MENU } from './constants';
 
-import {
-    ChartPieIcon,
-    PlusIcon,
-    ViewListIcon,
-    ColorSwatchIcon,
-    LoginIcon,
-    UserGroupIcon
-} from '@heroicons/react/solid';
-
-const LIST_MENU = [
-    { url: '/admin', text: 'Dashboard', icon: <ChartPieIcon /> },
-    { url: '/admin/buyer', text: 'List Pembeli', icon: <UserGroupIcon /> },
-    { url: '/admin/qurban/create', text: 'Add Qurban', icon: <PlusIcon /> },
-    { url: '/admin/qurban', text: 'List Qurban', icon: <ViewListIcon /> },
-    { url: '/admin/qurban/type', text: 'Tipe Sapi Qurban', icon: <ColorSwatchIcon /> },
-    { url: '/sign-in', text: 'Sign In', icon: <LoginIcon /> }
-];
 const Sidebar = () => {
     const router = useRouter();
     const currentRoute = router.pathname;
