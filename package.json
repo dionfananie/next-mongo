@@ -12,6 +12,7 @@
     "@tailwindcss/line-clamp": "^0.2.2",
     "dayjs": "^1.10.7",
     "next": "^13.2.4",
+    "next-auth": "^4.22.1",
     "prop-types": "^15.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,7 +1,11 @@
 import { CheckIcon, MinusIcon } from '@heroicons/react/outline';
 import { bool, func } from 'prop-types';
 
-const MarkPaid = ({ hasPaid, onClick }) => {
+interface MarkPaidProps {
+    hasPaid?: boolean;
+    onClick: () => void;
+}
+const MarkPaid = ({ hasPaid, onClick }: MarkPaidProps) => {
     const hasPaidCss = hasPaid
         ? 'bg-red-600 hover:bg-red-800 focus:ring-red-300'
         : 'bg-purple-600 hover:bg-purple-800 focus:ring-purple-300';
