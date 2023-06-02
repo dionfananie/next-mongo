@@ -1,9 +1,11 @@
 import React from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
-import { string } from 'prop-types';
 
-const NavbarDetail = ({ text }) => {
+interface NavbarDetailProps {
+    text: string;
+}
+const NavbarDetail = ({ text = '' }: NavbarDetailProps) => {
     const router = useRouter();
     return (
         <nav className="bg-white shadow-lg fixed z-10 w-full top-0">
@@ -19,10 +21,5 @@ const NavbarDetail = ({ text }) => {
         </nav>
     );
 };
-NavbarDetail.propTypes = {
-    text: string
-};
-NavbarDetail.defaultProps = {
-    text: ''
-};
+
 export default NavbarDetail;

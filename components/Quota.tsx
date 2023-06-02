@@ -1,7 +1,11 @@
 import React, { useMemo } from 'react';
 
 const maxQuota = 7;
-const Quota = ({ quota }) => {
+
+interface QuotaProps {
+    quota: number;
+}
+const Quota = ({ quota }: QuotaProps) => {
     const availQuota = useMemo(() => quota / maxQuota, [quota]);
     return (
         <>

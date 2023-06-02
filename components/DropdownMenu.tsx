@@ -142,7 +142,7 @@ export default function DropdownMenu() {
     );
 }
 
-function EditInactiveIcon(props) {
+function EditInactiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 13V16H7L16 7L13 4L4 13Z" fill="#EDE9FE" stroke="#A78BFA" strokeWidth="2" />
@@ -150,7 +150,7 @@ function EditInactiveIcon(props) {
     );
 }
 
-function EditActiveIcon(props) {
+function EditActiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 13V16H7L16 7L13 4L4 13Z" fill="#8B5CF6" stroke="#C4B5FD" strokeWidth="2" />
@@ -158,7 +158,7 @@ function EditActiveIcon(props) {
     );
 }
 
-function DuplicateInactiveIcon(props) {
+function DuplicateInactiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 4H12V12H4V4Z" fill="#EDE9FE" stroke="#A78BFA" strokeWidth="2" />
@@ -167,7 +167,7 @@ function DuplicateInactiveIcon(props) {
     );
 }
 
-function DuplicateActiveIcon(props) {
+function DuplicateActiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 4H12V12H4V4Z" fill="#8B5CF6" stroke="#C4B5FD" strokeWidth="2" />
@@ -176,7 +176,7 @@ function DuplicateActiveIcon(props) {
     );
 }
 
-function ArchiveInactiveIcon(props) {
+function ArchiveInactiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect
@@ -202,7 +202,7 @@ function ArchiveInactiveIcon(props) {
     );
 }
 
-function ArchiveActiveIcon(props) {
+function ArchiveActiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect
@@ -228,7 +228,7 @@ function ArchiveActiveIcon(props) {
     );
 }
 
-function MoveInactiveIcon(props) {
+function MoveInactiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 4H16V10" stroke="#A78BFA" strokeWidth="2" />
@@ -238,7 +238,7 @@ function MoveInactiveIcon(props) {
     );
 }
 
-function MoveActiveIcon(props) {
+function MoveActiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 4H16V10" stroke="#C4B5FD" strokeWidth="2" />
@@ -248,7 +248,7 @@ function MoveActiveIcon(props) {
     );
 }
 
-function DeleteInactiveIcon(props) {
+function DeleteInactiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect
@@ -266,7 +266,7 @@ function DeleteInactiveIcon(props) {
     );
 }
 
-function DeleteActiveIcon(props) {
+function DeleteActiveIcon(props: any) {
     return (
         <svg {...props} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect

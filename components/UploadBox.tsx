@@ -1,9 +1,14 @@
-import noop from '@helpers/noop';
+import noop from '../helpers/noop';
 import { UploadIcon, TrashIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import { func, object } from 'prop-types';
 
-const UploadBox = ({ selectedImg, handleRemove }) => {
+interface UploadBoxProps {
+    selectedImg: { img: string; name: string };
+    handleRemove: () => void;
+}
+
+const UploadBox = ({ selectedImg, handleRemove }: UploadBoxProps) => {
     if (!selectedImg?.img)
         return (
             <>

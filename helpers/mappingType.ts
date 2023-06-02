@@ -1,4 +1,4 @@
-const mappingType = (type) => {
+const mappingType = (type: string) => {
     let name = 'no Type';
     switch (type) {
         case '10':

@@ -1,7 +1,13 @@
+// import React from 'react';
+
 import { TrashIcon } from '@heroicons/react/outline';
 import { func } from 'prop-types';
 
-const Delete = ({ onClick }) => {
+interface DeleteProps {
+    onClick: () => void;
+}
+
+const Delete = ({ onClick }: DeleteProps) => {
     return (
         <button
             onClick={onClick}
