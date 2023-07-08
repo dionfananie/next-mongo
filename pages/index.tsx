@@ -6,7 +6,6 @@ import Image from 'next/image';
 import blurHashToDataURL from '../helpers/blurToDataURl';
 
 export default function Qurban({ list }) {
-
     return (
         <>
             <Head>
@@ -16,7 +15,7 @@ export default function Qurban({ list }) {
             {list.map((item) => {
                 const { blurhash, url, name, hash, width, height } =
                     item?.attributes?.photo?.data?.attributes || {};
-                const blurUrl = blurHashToDataURL(blurhash, width, height)
+                const blurUrl = blurHashToDataURL(blurhash, width, height);
                 return (
                     <>
                         <Image
