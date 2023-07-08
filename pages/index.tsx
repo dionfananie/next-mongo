@@ -4,8 +4,9 @@ import { arrayOf } from 'prop-types';
 import { object } from 'prop-types';
 import Image from 'next/image';
 import blurHashToDataURL from '../helpers/blurToDataURl';
+import { ListQurban } from 'types/List';
 
-export default function Qurban({ list }) {
+export default function Home({ list }: ListQurban) {
     return (
         <>
             <Head>
@@ -37,7 +38,7 @@ export default function Qurban({ list }) {
 
 export async function getServerSideProps() {
     try {
-        const res = await fetch(`https://strapi.dionfananie.my.id/api/list-qurbans?populate=*`);
+        const res = await fetch(`https://strapi.dionfananie.my.id/api/list-Homes?populate=*`);
         const data = await res.json();
         return {
             props: { list: data.data }
@@ -50,9 +51,9 @@ export async function getServerSideProps() {
     }
 }
 
-Qurban.propTypes = {
+Home.propTypes = {
     list: arrayOf(object)
 };
-Qurban.defaultProps = {
+Home.defaultProps = {
     list: []
 };
