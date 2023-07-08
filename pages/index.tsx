@@ -1,7 +1,5 @@
 import Head from 'next/head';
 
-import { arrayOf } from 'prop-types';
-import { object } from 'prop-types';
 import Image from 'next/image';
 import blurHashToDataURL from '../helpers/blurToDataURl';
 import { ListQurban } from 'types/List';
@@ -13,7 +11,9 @@ export default function Home({ list }: ListQurban) {
                 <title>Test Auth</title>
             </Head>
             <div>Next 13</div>
-            {list.map((item) => {
+            {list?.map((item) => {
+                console.log(item);
+
                 const { blurhash, url, name, hash, width, height } =
                     item?.attributes?.photo?.data?.attributes || {};
                 const blurUrl = blurHashToDataURL(blurhash, width, height);
@@ -25,8 +25,8 @@ export default function Home({ list }: ListQurban) {
                             blurDataURL={blurUrl}
                             placeholder="blur"
                             alt={name}
-                            width={300}
-                            height={300}
+                            width={150}
+                            height={120}
                         />
                     </>
                 );
@@ -38,8 +38,10 @@ export default function Home({ list }: ListQurban) {
 
 export async function getServerSideProps() {
     try {
-        const res = await fetch(`https://strapi.dionfananie.my.id/api/list-Homes?populate=*`);
+        const res = await fetch(`https://strapi.dionfananie.my.id/api/list-qurbans?populate=*`);
         const data = await res.json();
+        console.log(data);
+
         return {
             props: { list: data.data }
         };
@@ -50,10 +52,3 @@ export async function getServerSideProps() {
         };
     }
 }
-
-Home.propTypes = {
-    list: arrayOf(object)
-};
-Home.defaultProps = {
-    list: []
-};
