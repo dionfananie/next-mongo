@@ -1,4 +1,4 @@
-import { postLogin } from '@lib/fetch-data';
+import { postLogin } from '../../lib/fetch-data';
 import Layout from 'Layout/auth';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,9 +7,8 @@ import { useRouter } from 'next/router';
 const Login = () => {
     const router = useRouter();
 
-    const [isInvalid, setIsInvalid] = useState({ is_success: 100, text: '' });
+    const [isInvalid, setIsInvalid] = useState({ success: true, text: '' });
     const { handleSubmit, register } = useForm();
-
     const onSubmit = async (data) => {
         try {
             const formData = new URLSearchParams();
@@ -17,21 +16,25 @@ const Login = () => {
                 formData.append(key, data[key]);
             }
             const resp = await postLogin(formData.toString());
-            if (resp?.is_success) router.push('/admin');
-            setIsInvalid(resp);
+            console.log('resp: ', resp);
+            if (resp?.success) router.push('/');
+            setIsInvalid({ success: false, text: resp?.message });
         } catch (error) {
-            setIsInvalid({ is_success: 100, text: error.message });
+            console.error(error);
         }
     };
 
     return (
         <Layout>
-            {!isInvalid?.is_success && (
+            {!isInvalid?.success && (
                 <div
                     className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mb-3 rounded relative sm:max-w-md w-full"
                     role="alert">
-                    <strong className="font-bold">Error: </strong>
-                    <span className="block sm:inline">{isInvalid?.text}</span>
+                    <span className="block sm:inline">
+                        <strong className="font-bold">Error: </strong>
+                        {isInvalid?.text}
+                    </span>
+
                     <span
                         className="absolute top-0 bottom-0 right-0 px-4 py-3"
                         onClick={() => setIsInvalid({ is_success: 1 })}>
