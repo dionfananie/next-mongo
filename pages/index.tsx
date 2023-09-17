@@ -1,11 +1,5 @@
-import Login from '../components/Auth/LoginBtn';
-
 const Index = () => {
-    return (
-        <>
-            <Login />
-        </>
-    );
+    return <h1>index page</h1>;
 };
 
 export default Index;
